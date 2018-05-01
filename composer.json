@@ -1,0 +1,26 @@
+{
+    "name": "chenlongqiang/easy-short-url",
+    "description": "generate short url, use mysql.",
+    "homepage": "https://github.com/chenlongqiang/easy-short-url",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "陈龙强",
+            "email": "365499684@qq.com",
+            "homepage": "http://lukachen.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "paragonie/easydb": "^2"
+    },
+    "autoload": {
+        "psr-4": {
+            "EasyShortUrl\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    }
+}
