@@ -1,7 +1,7 @@
 # easy-short-url 短链接生成
 
-## 作者Blog
-(http://lukachen.com)[http://lukachen.com]
+## 作者 Blog
+http://lukachen.com
 
 ## 配置
 ```
