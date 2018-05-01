@@ -1,7 +1,6 @@
 # easy-short-url 短链接生成
 
-## 作者 Blog
-http://lukachen.com
+composer require chenlongqiang/easy-short-url
 
 ## 配置
 ```
@@ -32,3 +31,6 @@ $code = trim($_SERVER['REQUEST_URI'], '/');
 $longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong($code);;
 header('Location:' . $longUrl, true, 301)
 ```
+
+## 作者 Blog
+http://lukachen.com
