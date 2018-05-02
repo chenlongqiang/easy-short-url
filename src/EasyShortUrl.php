@@ -55,7 +55,7 @@ class EasyShortUrl
             throw new Exception('未传数据库密码$dbConfig["password"]');
         }
         $this->db = Factory::create(
-            "mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']}",
+            "mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']};charset=utf8",
             $dbConfig['username'],
             $dbConfig['password'] 
         );
