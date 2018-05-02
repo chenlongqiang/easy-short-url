@@ -28,8 +28,8 @@ $shortUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toShor
 require 'vendor/autoload.php';
 
 $code = trim($_SERVER['REQUEST_URI'], '/');
-$longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong($code);;
-header('Location:' . $longUrl, true, 301)
+$longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong($code);
+header('Location:' . $longUrl, true, 301);
 ```
 
 ## 作者 Blog
