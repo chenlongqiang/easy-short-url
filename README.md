@@ -1,6 +1,10 @@
 # easy-short-url 短链接生成
 
+## 获取包
 composer require chenlongqiang/easy-short-url
+
+## 创建数据表
+mysqldump -u username -p dbname < esu.sql
 
 ## 配置
 ```
