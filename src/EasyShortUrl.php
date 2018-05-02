@@ -42,16 +42,16 @@ class EasyShortUrl
 
     public function setDB($dbConfig)
     {
-        if (!isset($dbConfig['host'])) {
+        if (!isset($dbConfig['host']) && $dbConfig['host'] === '') {
             throw new Exception('未传数据库地址$dbConfig["host"]');
         }
-        if (!isset($dbConfig['dbname'])) {
+        if (!isset($dbConfig['dbname']) && $dbConfig['dbname'] === '') {
             throw new Exception('未传数据库名$dbConfig["dbname"]');
         }
-        if (!isset($dbConfig['username'])) {
+        if (!isset($dbConfig['username']) && $dbConfig['username'] === '') {
             throw new Exception('未传数据库用户名$dbConfig["username"]');
         }
-        if (!isset($dbConfig['password'])) {
+        if (!isset($dbConfig['password']) && $dbConfig['password'] === '') {
             throw new Exception('未传数据库密码$dbConfig["password"]');
         }
         $this->db = Factory::create(
@@ -63,7 +63,7 @@ class EasyShortUrl
     
     public function setOptions($options)
     {
-        if (!isset($options['domain'])) {
+        if (!isset($options['domain']) && $options['domain'] === '') {
             throw new Exception('未传短网址域名$options["domain"]');
         }
         $this->sDomain = $options['domain'];
