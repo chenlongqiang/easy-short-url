@@ -4,30 +4,29 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "20dbb7dd3d5875e2145cffde02820f43",
+    "content-hash": "fa5dfefdab2954319253d89e036da630",
     "packages": [
         {
             "name": "paragonie/easydb",
-            "version": "v2.6.1",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/easydb.git",
-                "reference": "500d85b55972d78d1716da58aedc7444d5ffa64c"
+                "reference": "5372673ba5980dc94cc33e9d7d23e7df055a8632"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/paragonie/easydb/500d85b55972d78d1716da58aedc7444d5ffa64c.zip",
-                "reference": "500d85b55972d78d1716da58aedc7444d5ffa64c",
+                "url": "https://files.phpcomposer.com/files/paragonie/easydb/5372673ba5980dc94cc33e9d7d23e7df055a8632.zip",
+                "reference": "5372673ba5980dc94cc33e9d7d23e7df055a8632",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
-                "php": "^7"
+                "php": "^5.5|^7"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5",
-                "squizlabs/php_codesniffer": "^2.7",
-                "vimeo/psalm": "1.1.1"
+                "phpunit/phpunit": "^4|^5",
+                "squizlabs/php_codesniffer": "^2.7"
             },
             "type": "library",
             "autoload": {
@@ -64,7 +63,7 @@
                 "security",
                 "sql"
             ],
-            "time": "2018-05-01T06:22:41+00:00"
+            "time": "2018-05-01T06:44:32+00:00"
         }
     ],
     "packages-dev": [],

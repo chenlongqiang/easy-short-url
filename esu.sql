@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `esu_url`;
 CREATE TABLE `esu_url` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(8) NOT NULL DEFAULT '' COMMENT '短网址code',
-  `long_url` varchar(255) NOT NULL DEFAULT '' COMMENT '长网址',
+  `long_url` varchar(1024) NOT NULL DEFAULT '' COMMENT '长网址',
   `long_url_hash` varchar(32) NOT NULL DEFAULT '' COMMENT '长网址做hash后的值',
   `request_num` int(11) NOT NULL DEFAULT '0' COMMENT '请求次数',
   `ip` varchar(32) NOT NULL DEFAULT '' COMMENT '请求ip',

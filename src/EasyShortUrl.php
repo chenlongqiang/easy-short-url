@@ -128,7 +128,7 @@ class EasyShortUrl
     {
         $res = '';
         while ($num > 0) {
-            $res = self::STR_SHUFFLE_62[$num % 62] . $res;
+            $res = substr(self::STR_SHUFFLE_62, $num % 62, 1) . $res;
             $num = floor($num / 62);
         }
         return $res;
