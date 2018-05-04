@@ -267,24 +267,19 @@
         </div>
     </div>
     <div class="content">
-        <div>
-            <?php
-//            echo $options['domain']
-            ?>
-        </div>
         <div class="tab_wrap">
             <div class="tab_title">
                 <ul class="tab_select">
                     <li class="on">
-                        <a href="<?php echo $options['domain'] ?>/web_admin/###" class="shorten"><span>缩短网址</span></a>
+                        <a href="javascript:;" class="shorten"><span>缩短网址</span></a>
                     </li>
                     <li>
-                        <a href="<?php echo $options['domain'] ?>/web_admin/###" class="reversion"> <span>网址还原</span></a>
+                        <a href="javascript:;" class="reversion"> <span>网址还原</span></a>
                     </li>
                 </ul>
                 <ul class="tab_other">
                     <li>
-                        <a href="http://lukachen.com/api_doc.html" target="_blank"><span>API</span></a>
+                        <a href="http://lukachen.com/api_doc.html" target="_blank"><span>DOC</span></a>
                     </li>
                 </ul>
             </div>
