@@ -6,7 +6,7 @@
  * Time: 上午11:49
  */
 
-$is_dev = true;
+$is_dev = false;
 
 if ($is_dev) {
     ini_set('display_errors', 'on');
