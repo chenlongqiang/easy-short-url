@@ -41,7 +41,7 @@ function conf() {
 function validateAccess()
 {
     $accessPass = false;
-    if (isset($_POST['access_key']) && in_array($_POST['access_key'], [])) { // TODO 开发者授权
+    if (isset($_POST['access_key']) && in_array($_POST['access_key'], explode('|', env('ACCESS_KEY')))) { // API开发者授权
         $accessPass = true;
     }
     if (isset($_POST['session_key']) && $_POST['session_key'] == esu_session_key()) { // web授权
