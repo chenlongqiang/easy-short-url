@@ -6,14 +6,19 @@
  * Time: 上午11:49
  */
 
-require './vendor/autoload.php';
+$is_dev = true;
 
-//ini_set('display_errors', 'on');
-//error_reporting(E_ALL | E_STRICT);
+if ($is_dev) {
+    ini_set('display_errors', 'on');
+    error_reporting(E_ALL | E_STRICT);
 
-// .env
-// $dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv = new Dotenv\Dotenv(dirname(dirname(dirname(__DIR__))));
+    require './vendor/autoload.php';
+    $dotenv = new Dotenv\Dotenv(__DIR__);
+} else {
+    require '../../../vendor/autoload.php';
+    $dotenv = new Dotenv\Dotenv(dirname(dirname(dirname(__DIR__))));
+}
+
 $dotenv->load();
 
 function conf() {
