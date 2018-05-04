@@ -15,6 +15,8 @@ cp ./vendor/chenlongqiang/easy-short-url/.env_example ./.env
 ```
 //DOMAIN请带上协议头 http:// or https://
 DOMAIN=http://s.lukachen.com
+WEB_SESSION_LIFE=600
+ACCESS_KEY=easy123456|short099876|url123567
 
 DB_HOST=127.0.0.1
 DB_DBNAME=esu
@@ -27,14 +29,16 @@ TABLE_URL=esu_url
 ## 注意事项
 - 配置项目根目录至 xxx/vendor/chenlongqiang/easy-short-url/
 - 注意配置rewrite重写至index.php，这里baidu或者google解决不再复述
-- web页: http://s.lukachen.com/web_admin
+- web页:
+    地址: http://s.lukachen.com/web_admin
+    授权: web页自带session_key授权,session_key有效期可在 .env 中配置WEB_SESSION_LIFE,单位秒.
 - api:
     地址: http://s.lukachen.com/api_gen
     方法: POST
     参数:
         type: to_short 或 to_long
-        content: urlencode过的url
-        auth_key: 授权key,可联系作者获取,使用本包的开发者自己随意auth_key
+        content: url
+        access_key: 授权key,可联系作者获取.使用本包的开发者可随意在自己的.env中新增ACCESS_KEY
 
 ## 方法列表
 
