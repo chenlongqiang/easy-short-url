@@ -27,18 +27,23 @@ TABLE_URL=esu_url
 ```
 
 ## 注意事项
-- 配置项目根目录至 xxx/vendor/chenlongqiang/easy-short-url/
-- 注意配置rewrite重写至index.php，这里baidu或者google解决不再复述
-- web页:
-    地址: http://s.lukachen.com/web_admin
-    授权: web页自带session_key授权,session_key有效期可在 .env 中配置WEB_SESSION_LIFE,单位秒.
-- api:
-    地址: http://s.lukachen.com/api_gen
-    方法: POST
-    参数:
+```
+apache or nginx 配置项目根目录至 xxx/vendor/chenlongqiang/easy-short-url/
+
+配置rewrite重写至index.php,不清楚的自行baidu、google或联系我
+
+web页:
+    - 地址: http://s.lukachen.com/web_admin
+    - 授权: web页自带session_key授权,session_key有效期可在 .env 中配置WEB_SESSION_LIFE,单位秒.
+
+API:
+    - 地址: http://s.lukachen.com/api_gen
+    - 方法: POST
+     参数:
         type: to_short 或 to_long
         content: url
         access_key: 授权key,可联系作者获取.使用本包的开发者可随意在自己的.env中新增ACCESS_KEY
+```
 
 ## 方法列表
 
@@ -52,5 +57,7 @@ $shortUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toShor
 $longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong($code);
 ```
 
-## 作者 Blog
-http://lukachen.com
+## 作者
+- QQ   365499684
+- Blog http://lukachen.com
+- 欢迎与我交流,路过的朋友来一记华丽的star哦:)
