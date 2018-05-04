@@ -11,7 +11,7 @@ mysqldump -u username -p dbname < esu.sql
 cp ./vendor/chenlongqiang/easy-short-url/.env_example ./.env
 ```
 
-## 填写.env配置项
+## .env配置项
 ```
 //DOMAIN请带上协议头 http:// or https://
 DOMAIN=http://s.lukachen.com
@@ -24,9 +24,17 @@ DB_PASSWORD=root
 TABLE_URL=esu_url
 ```
 
-## web服务器配置
+## 注意事项
 - 配置项目根目录至 xxx/vendor/chenlongqiang/easy-short-url/
 - 注意配置rewrite重写至index.php，这里baidu或者google解决不再复述
+- web页: http://s.lukachen.com/web_admin
+- api:
+    地址: http://s.lukachen.com/api_gen
+    方法: POST
+    参数:
+        type: to_short 或 to_long
+        content: urlencode过的url
+        auth_key: 授权key,可联系作者获取,使用本包的开发者自己随意auth_key
 
 ## 方法列表
 
@@ -35,10 +43,9 @@ TABLE_URL=esu_url
 $shortUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toShort('https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E7%95%AA%E8%8C%84%E7%82%92%E8%9B%8B&oq=%25E7%2595%25AA%25E8%258C%2584%25E7%2582%2592%25E8%259B%258B&rsv_pq=85934537000db9aa&rsv_t=3f59xqFrSv6jrDyrT1OVxtG9CRa0wGzUDKU3UBOsxxQkzFQqY9rZWnBIvQQ&rqlang=cn&rsv_enter=0&prefixsug=%25E7%2595%25AA%25E8%258C%2584%25E7%2582%2592%25E8%259B%258B&rsp=0');
 ```
 
-### 2.还原长链
+### 2.获取原链接
 ```
-\EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong($code);
-## 访问短链接跳转回长链接
+$longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong($code);
 ```
 
 ## 作者 Blog

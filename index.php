@@ -29,7 +29,7 @@ function conf() {
         [
             'domain' => env('DOMAIN'),
             'tableUrl' => env('TABLE_URL'),
-        ]
+        ],
     ];
 }
 
@@ -41,11 +41,24 @@ $instance = EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options);
 
 $code = trim($_SERVER['REQUEST_URI'], '/');
 if ($code == 'web_admin') {
+    // TODO 下发web授权码
+
     // web 页
     require './src/WebAdmin.php';
     exit;
 } elseif ($code == 'api_gen') {
-    // api(post)
+    // api(POST方法)
+
+    // TODO 控制请求频率
+
+    // TODO 验证授权码
+    /*
+    if(!in_array($_POST['auth_key'], $authKeys)) {
+        echo json_encode(['code' => '1', 'data' => '', 'msg' => 'api not found']);
+        exit;
+    }
+    */
+
     if ($_POST['type'] == 'to_short') {
         $shortUrl = $instance->toShort(urldecode($_POST['content']));;
         echo json_encode(['code' => '0', 'data' => $shortUrl, 'msg' => 'ok']);
