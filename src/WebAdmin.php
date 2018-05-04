@@ -318,7 +318,9 @@
         </div>
         <div id="t_success_show_wrap"></div>
     </div>
-    <div class="footer"></div>
+    <div class="footer" style="text-align: center;">
+        web授权有效期至<?php echo date('Y-m-d H:i:s', time() + env('WEB_SESSION_LIFE'));?>,过期后请刷新页面重新授权,再使用相关功能.
+    </div>
 </div>
 <!-- 引入 jquery.js -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -334,6 +336,7 @@
     });
 
     var url = "<?php echo $options['domain'] . '/api_gen';?>";
+    var sessionKey = "<?php echo $sessionKey;?>";
     $('.send_button').on('click', function(e){
         var type = $(this).data('type');
         var contentClass = '.' + type + '_content';
@@ -341,7 +344,8 @@
         var content = $(contentClass).val();
         var params = {
             'type': type,
-            'content': encodeURIComponent(content)
+            'content': encodeURIComponent(content),
+            'session_key': sessionKey
         };
         $.post(url, params, function(res){
             if (res.code == '0') {

@@ -41,3 +41,32 @@ if (!function_exists('env')) {
         }
     }
 }
+
+// 获取 session key
+function esu_session_key($refresh = false) {
+    session_start();
+    $sid = session_id();
+    
+    $lifeTime = env('WEB_SESSION_LIFE'); // 一个 session key 有效期 xx 秒
+    
+    if (isset($_SESSION[$sid]) && $_SESSION[$sid]['expire'] > time()) {
+        if ($refresh) {
+            // 刷新有效期
+            $_SESSION[$sid]['expire'] = time() + $lifeTime;
+            return $_SESSION[$sid]['key'];
+        } else {
+            return $_SESSION[$sid]['key'];
+        }
+    } else {
+        $_SESSION[$sid] = [
+            'key' => esu_session_key_gen($sid),
+            'expire' => time() + $lifeTime,
+        ];
+        return $_SESSION[$sid]['key'];
+    }
+}
+
+function esu_session_key_gen($sid) {
+    return md5($sid . time() . 'hey!easy-short-url');
+}
+
