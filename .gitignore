@@ -1,1 +1,5 @@
 /vendor/
+/ErrorFiles/
+.idea/
+.env
+u.php

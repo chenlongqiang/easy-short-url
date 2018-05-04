@@ -116,7 +116,7 @@ class EasyShortUrl
     public function toLong($code)
     {
         $res = $this->db->row("SELECT id,long_url,request_num FROM {$this->tableUrl} WHERE code = ?", $code);
-        if ($res === false) {
+        if (empty($res)) {
             return false;
         }
         $this->db->update($this->tableUrl, ['request_num' => $res['request_num'] + 1], ['id' => $res['id']]);
