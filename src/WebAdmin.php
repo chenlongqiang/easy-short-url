@@ -279,7 +279,7 @@
                 </ul>
                 <ul class="tab_other">
                     <li>
-                        <a href="http://lukachen.com/api_doc.html" target="_blank"><span>DOC</span></a>
+                        <a href="https://github.com/chenlongqiang/easy-short-url" target="_blank"><span>DOC</span></a>
                     </li>
                 </ul>
             </div>
