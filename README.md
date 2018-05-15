@@ -60,4 +60,5 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong(
 ## 作者
 - QQ   365499684
 - Blog http://lukachen.com
+- 我的短链应用 http://s.lukachen.com/web_admin
 - 欢迎与我交流,路过的朋友来一记华丽的star哦:)
