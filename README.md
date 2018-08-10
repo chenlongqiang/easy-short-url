@@ -76,7 +76,7 @@ API:
 ```
 
 ## 作者
-- QQ   365499684
+- QQ   365499684 (添加时备注一下【短链接】)
 - Blog http://lukachen.com
 - 我的短链应用 http://s.lukachen.com/web_admin
-- 欢迎与我交流,路过的朋友来一记华丽的star哦:)
+- 欢迎与我交流, 路过的朋友来一记华丽的 star 哦 :) :) :)
