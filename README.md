@@ -76,7 +76,9 @@ API:
 ```
 
 ## 作者
-- QQ   365499684 (添加时备注一下【短链接】)
+<img src="http://lukachen.com/usr/uploads/2019/03/2035288333.jpg" width="150px;" height="200px;">
+
+- QQ 365499684 (添加时备注一下【短链接】)
 - Blog http://lukachen.com
 - 我的短链应用 http://s.lukachen.com/web_admin
 - 欢迎与我交流, 路过的朋友来一记华丽的 star 哦 :) :) :)
