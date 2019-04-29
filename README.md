@@ -29,7 +29,7 @@ TABLE_URL=esu_url
 
 ## 方法列表
 
-### 配置
+### 设置配置变量
 ```
 $dbConfig = [
     'host' => env('DB_HOST'),
