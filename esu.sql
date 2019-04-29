@@ -1,15 +1,8 @@
 /*
 Navicat MySQL Data Transfer
-
 Source Server         : lukachen
-Source Server Version : 50148
-Source Host           : qdm169738575.my3w.com:3306
-Source Database       : qdm169738575_db
-
 Target Server Type    : MYSQL
 Target Server Version : 50148
-File Encoding         : 65001
-
 Date: 2018-05-02 11:10:54
 */
 
