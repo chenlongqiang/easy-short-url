@@ -4,7 +4,7 @@
 composer require chenlongqiang/easy-short-url
 
 ## 创建数据表
-mysqldump -u username -p dbname < esu.sql
+mysql -u username -p dbname < esu.sql
 
 ## 在项目根目录下，创建配置文件 .env
 ```
