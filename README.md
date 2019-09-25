@@ -83,7 +83,7 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong(
 参数:
     type: to_short 或 to_long
     content: url
-    access_key: 授权key，可联系作者获取.使用本包的开发者可随意在自己的.env中新增ACCESS_KEY
+    access_key: api 授权 key 在 .env 中新增，多个 ACCESS_KEY 使用 | 分割
 ```
 
 ## 作者
