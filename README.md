@@ -47,6 +47,20 @@ TABLE_URL=esu_url
 
 ## 方法列表
 
+0.config
+```
+$dbConfig = [
+    'host' => env('DB_HOST'),
+    'dbname' => env('DB_DBNAME'),
+    'username' => env('DB_USERNAME'),
+    'password' => env('DB_PASSWORD'),
+];
+$options = [
+    'domain' => env('DOMAIN'),
+    'tableUrl' => env('TABLE_URL'),
+];
+```
+
 1.生成短网址 toShort
 ```
 $shortUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toShort('http://lukachen.com/archives/328/');
