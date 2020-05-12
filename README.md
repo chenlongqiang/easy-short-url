@@ -2,7 +2,7 @@
 
 - 实现原理: id 自增（转自定义62进制）  
 - 存储: mysql  
-- 统计: 302 重定向, 数据库 request_num 字段统计（如考虑性能，可自己在 index.php 修改为 301 永久重定向，统计将失效）  
+- 统计: 302 重定向, 数据库 request_num 字段统计（如考虑高并发的查询性能瓶颈，可自己在调用层做 redis or memcache 缓存，统计将失效）  
 
 ## 使用步骤
 
@@ -81,7 +81,7 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong(
 1.服务器配置
 ```
 1) apache or nginx 配置 root 目录至 vendor/chenlongqiang/easy-short-url/
-2) 配置 rewrite 重写至index.php，不清楚的自行baidu、google或联系我
+2) 配置 rewrite 重写至 index.php，不清楚的自行 baidu、google 或联系我
 ```
 
 2.web页（.env DOMAIN 改成自己的域名）
