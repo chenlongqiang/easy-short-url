@@ -1,7 +1,7 @@
-# easy-short-url 短网址生成
-
+# easy-short-url 短网址
+- 使用方式: 可在 laravel、yii、TP 等框架 composer 包引入，也可以搭建短网址应用网站
 - 实现原理: id 自增（转自定义62进制）  
-- 存储: mysql  
+- 存储: mysql
 - 统计: 302 重定向, 数据库 request_num 字段统计（如考虑高并发的查询性能瓶颈，可自己在调用层做 redis or memcache 缓存，统计将失效）  
 
 ## 使用步骤
