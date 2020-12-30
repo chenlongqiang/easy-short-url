@@ -35,24 +35,18 @@ class Router
      */
     public function web_admin()
     {
-        // 下发web授权
-        $domain = env('DOMAIN');
-        $sessionKey = esu_session_key(true);
-        
         require ESU_ROOT_PATH . '/src/WebAdmin.php';
         exit;
     }
     
     /**
-     * api
+     * web api 
      */
     public function api_gen()
     {
-        // 验证授权码
-        esu_validate_access();
-    
-        // todo 控制请求频率
-    
+        // todo 验证请求授权
+        // esu_validate_access();
+        
         if ($_POST['type'] == 'to_short') {
             $longUrl = urldecode($_POST['content']);
             if (
@@ -78,7 +72,17 @@ class Router
             header("HTTP/1.1 404 Not Found");
             exit;
         }
-        $longUrl = (EasyShortUrl::getInstance())->toLong($this->uri);
+    
+        // todo 验证跳转授权
+        // esu_validate_access();
+    
+        // todo cache
+        $cache = false;
+        if ($cache) {
+            $longUrl = '';
+        } else {
+            $longUrl = (EasyShortUrl::getInstance())->toLong($this->uri);
+        }
         if ($longUrl === false) {
             header("HTTP/1.1 404 Not Found");
             exit;

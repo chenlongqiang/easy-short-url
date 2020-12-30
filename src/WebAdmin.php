@@ -335,8 +335,7 @@
         $(tabsbody[tabs.index(this)]).show();
     });
 
-    var url = "<?php echo $domain . '/api_gen';?>";
-    var sessionKey = "<?php echo $sessionKey;?>";
+    var url = "<?php echo env('DOMAIN') . '/api_gen';?>";
     $('.send_button').on('click', function(e){
         var type = $(this).data('type');
         var contentClass = '.' + type + '_content';
@@ -345,7 +344,7 @@
         var params = {
             'type': type,
             'content': encodeURIComponent(content),
-            'session_key': sessionKey
+            'secret': 'lukachen'
         };
         $.post(url, params, function(res){
             if (res.code == '0') {
