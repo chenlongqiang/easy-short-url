@@ -222,9 +222,9 @@
     .url_input input {
         outline: 0;
         width: 432px;
-        height: 17px;
+        height: 25px;
         font-size: 14px;
-        padding: 4px 5px 0;
+        padding: 4px 4px;
         border: 0
     }
 
@@ -335,7 +335,7 @@
         $(tabsbody[tabs.index(this)]).show();
     });
 
-    var url = "<?php echo $options['domain'] . '/api_gen';?>";
+    var url = "<?php echo $domain . '/api_gen';?>";
     var sessionKey = "<?php echo $sessionKey;?>";
     $('.send_button').on('click', function(e){
         var type = $(this).data('type');

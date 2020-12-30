@@ -13,46 +13,53 @@ use Exception;
 
 class EasyShortUrl
 {
-    
     // !!!一但进行使用,请勿修改该字符串
     const STR_SHUFFLE_62 = '9uDsa6I2GzjMCRg8PXc4ZHFhtmVniwLWYeKyqO7blpQ5BES3TUdAx0Jrk1fvNo';
 
     // instance
     private static $instance;
+    
     // 短网址域名
     private $sDomain;
-    // 数据库
-    private $db;
-    private $tableUrl = 'esu_url';
     
-    public function __construct($dbConfig, $options)
+    // 数据库连接
+    private $db;
+    
+    private function __construct($dbConfig, $options)
     {
         $this->setOptions($options);
         $this->setDB($dbConfig);
     }
     
-    public static function getInstance($dbConfig, $options)
+    public static function getInstance()
     {
         if (!empty(self::$instance)) {
             return self::$instance;
         } else {
-            return self::$instance = new self($dbConfig, $options);
+            return self::$instance = new self([
+                'host' => env('DB_HOST'),
+                'dbname' => env('DB_DBNAME'),
+                'username' => env('DB_USERNAME'),
+                'password' => env('DB_PASSWORD'),
+            ], [
+                'domain' => env('DOMAIN'),
+            ]);
         }
     }
 
     public function setDB($dbConfig)
     {
-        if (!isset($dbConfig['host']) && $dbConfig['host'] === '') {
-            throw new Exception('未传数据库地址$dbConfig["host"]');
+        if (!isset($dbConfig['host']) || empty($dbConfig['host'])) {
+            throw new Exception('.env DB_HOST 不能为空');
         }
-        if (!isset($dbConfig['dbname']) && $dbConfig['dbname'] === '') {
-            throw new Exception('未传数据库名$dbConfig["dbname"]');
+        if (!isset($dbConfig['dbname']) || empty($dbConfig['dbname'])) {
+            throw new Exception('.env DB_DBNAME 不能为空');
         }
-        if (!isset($dbConfig['username']) && $dbConfig['username'] === '') {
-            throw new Exception('未传数据库用户名$dbConfig["username"]');
+        if (!isset($dbConfig['username']) || empty($dbConfig['username'])) {
+            throw new Exception('.env DB_USERNAME 不能为空');
         }
-        if (!isset($dbConfig['password']) && $dbConfig['password'] === '') {
-            throw new Exception('未传数据库密码$dbConfig["password"]');
+        if (!isset($dbConfig['password']) || empty($dbConfig['password'])) {
+            throw new Exception('.env DB_PASSWORD 不能为空');
         }
         $this->db = Factory::create(
             "mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']};charset=utf8",
@@ -63,13 +70,10 @@ class EasyShortUrl
     
     public function setOptions($options)
     {
-        if (!isset($options['domain']) && $options['domain'] === '') {
-            throw new Exception('未传短网址域名$options["domain"]');
+        if (!isset($options['domain']) || empty($options['domain'])) {
+            throw new Exception('.env DOMAIN 不能为空');
         }
         $this->sDomain = $options['domain'];
-        if (isset($options['tableUrl'])) {
-            $this->tableUrl = $options['tableUrl'];
-        }
     }
 
     private function buildShortUrl($code)
@@ -92,34 +96,34 @@ class EasyShortUrl
      */
     public function toShort($longUrl)
     {
-        $existsCode = $this->db->single("SELECT code FROM {$this->tableUrl} WHERE long_url_hash = ?", [md5($longUrl)]);
+        $existsCode = $this->db->single("SELECT code FROM esu_url WHERE long_url_hash = ?", [md5($longUrl)]);
         if ($existsCode !== false) {
             return $this->buildShortUrl($existsCode);
         }
 
-        $id = $this->db->insertReturnId($this->tableUrl, [
+        $id = $this->db->insertReturnId('esu_url', [
             'code' => '',
             'long_url' => $longUrl,
             'long_url_hash' => md5($longUrl),
-            'ip' => get_ip(),
+            'ip' => esu_get_ip(),
             'request_num' => 0,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
         
         $code = $this->base10To62($id);
         
-        $this->db->update($this->tableUrl, ['code' => $code], ['id' => $id]);
+        $this->db->update('esu_url', ['code' => $code], ['id' => $id]);
 
         return $this->buildShortUrl($code);
     }
     
     public function toLong($code)
     {
-        $res = $this->db->row("SELECT id,long_url,request_num FROM {$this->tableUrl} WHERE code = ?", $code);
+        $res = $this->db->row("SELECT id,long_url,request_num FROM esu_url WHERE code = ?", $code);
         if (empty($res)) {
             return false;
         }
-        $this->db->update($this->tableUrl, ['request_num' => $res['request_num'] + 1], ['id' => $res['id']]);
+        $this->db->update('esu_url', ['request_num' => $res['request_num'] + 1, 'updated_at' => date('Y-m-d H:i:s')], ['id' => $res['id']]);
         return $res['long_url'];
     }
     
@@ -133,5 +137,4 @@ class EasyShortUrl
         }
         return $res;
     }
-
 }
