@@ -77,6 +77,8 @@ class Router
         // esu_validate_access();
     
         // todo cache
+        // http://www.symfonychina.com/doc/current/components/cache.html
+        // https://github.com/symfony/cache
         $cache = false;
         if ($cache) {
             $longUrl = '';
