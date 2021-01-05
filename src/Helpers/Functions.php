@@ -128,3 +128,36 @@ function esu_validate_access()
     }
 }
 
+function response($data, $code, $msg = '')
+{
+    return [
+        'code' => $code,
+        'data' => $data,
+        'msg' => $msg,
+    ];
+}
+
+function response_success($data = [])
+{
+    return response($data, '0', 'ok');
+}
+
+function response_error($msg = 'error', $data = [])
+{
+    return response($data, '1', $msg);
+}
+
+function api_success($data)
+{
+    exit(json_encode(response_success($data)));
+}
+
+function api_error($msg = 'error', $data = [])
+{
+    exit(json_encode(response_error($msg, $data)));
+}
+
+function api_response($data, $code, $msg = '')
+{
+    exit(json_encode(response($data, $code, $msg)));
+}

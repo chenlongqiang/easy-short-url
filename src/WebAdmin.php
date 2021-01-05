@@ -319,7 +319,7 @@
         <div id="t_success_show_wrap"></div>
     </div>
     <div class="footer" style="text-align: center;">
-        web授权有效期至<?php echo date('Y-m-d H:i:s', time() + env('WEB_SESSION_LIFE'));?>,过期后请刷新页面重新授权,再使用相关功能.
+        请管理员在 esu_access 表添加授权后，再使用相关功能
     </div>
 </div>
 <!-- 引入 jquery.js -->
@@ -344,7 +344,7 @@
         var params = {
             'type': type,
             'content': encodeURIComponent(content),
-            'secret': 'lukachen'
+            'access_key': 'lukachen'
         };
         $.post(url, params, function(res){
             if (res.code == '0') {

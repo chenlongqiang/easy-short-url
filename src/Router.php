@@ -19,19 +19,23 @@ class Router
     
     /**
      * 路由分发
+     * router dispatch
+     * @throws Exception\EasyShortUrlException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function dispatch()
     {
         if (method_exists($this, $this->uri)) {
             call_user_func([$this, $this->uri]);
         } else {
-            $this->redirect_long_url();
+            $this->redirectLongUrl();
         }
         exit;
     }
     
     /**
      * web 管理页
+     * web admin
      */
     public function web_admin()
     {
@@ -40,57 +44,80 @@ class Router
     }
     
     /**
-     * web api 
+     * web api
      */
     public function api_gen()
     {
-        // todo 验证请求授权
-        // esu_validate_access();
-        
         if ($_POST['type'] == 'to_short') {
             $longUrl = urldecode($_POST['content']);
             if (
                 empty($_POST['content'])
                 || (strpos($longUrl, 'http://') !== 0 && strpos($longUrl, 'https://') !== 0)
             ) {
-                exit(json_encode(['code' => '2', 'data' => '', 'msg' => '请传递正确的网址(带协议头)']));
+                api_error('error scheme, please start with http:// or https://');
             }
-            $shortUrl = (EasyShortUrl::getInstance())->toShort($longUrl);;
-            exit(json_encode(['code' => '0', 'data' => $shortUrl, 'msg' => 'ok']));
+            
+            try {
+                $shortUrl = (EasyShortUrl::getInstance())->toShort($longUrl, $_POST['access_key']);;
+                api_success($shortUrl);
+            } catch (\Exception $e) {
+                api_error($e->getMessage());
+            }
         } elseif ($_POST['type'] == 'to_long') {
             $code = trim(parse_url(urldecode($_POST['content']), PHP_URL_PATH), '/');
-            $longUrl = (EasyShortUrl::getInstance())->toLong($code);;
-            exit(json_encode(['code' => '0', 'data' => $longUrl, 'msg' => 'ok']));
+            try {
+                $longUrl = (EasyShortUrl::getInstance())->toLong($code);;
+                api_success($longUrl);
+            } catch (\Exception $e) {
+                api_error($e->getMessage());
+            }
         } else {
-            exit(json_encode(['code' => '1', 'data' => '', 'msg' => 'api not found']));
+            api_error('api not found');
         }
     }
     
-    public function redirect_long_url()
+    /**
+     * 跳转长网址
+     * redirect to long url
+     * @throws Exception\EasyShortUrlException
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function redirectLongUrl()
     {
         if (empty($this->uri)) {
             header("HTTP/1.1 404 Not Found");
             exit;
         }
     
-        // todo 验证跳转授权
-        // esu_validate_access();
-    
-        // todo cache
-        // http://www.symfonychina.com/doc/current/components/cache.html
-        // https://github.com/symfony/cache
-        $cache = false;
-        if ($cache) {
-            $longUrl = '';
-        } else {
-            $longUrl = (EasyShortUrl::getInstance())->toLong($this->uri);
+        if (env('CACHE_OPEN') === '1') {
+            $cacheKey = Cache::key('mapping_code_and_long_url', ['code' => $this->uri]);
+            $cache = Cache::client();
+            $mapping = $cache->getItem($cacheKey);
+            if (!$mapping->isHit()) {
+                // 元素在缓存中不存在，被动缓存
+                try {
+                    $longUrl = (EasyShortUrl::getInstance())->toLong($this->uri);;
+                    $mapping->set($longUrl);
+                    $cache->save($mapping);
+                } catch (\Exception $e) {
+                    header("HTTP/1.1 404 Not Found");
+                    exit;
+                }
+            } else {
+                $longUrl = $mapping->get();
+            }
+        } 
+        
+        // 未启用缓存或从缓存取出失败
+        if (!isset($longUrl) || empty($longUrl)) {
+            try {
+                $longUrl = (EasyShortUrl::getInstance())->toLong($this->uri);;
+            } catch (\Exception $e) {
+                header("HTTP/1.1 404 Not Found");
+                exit;
+            }
         }
-        if ($longUrl === false) {
-            header("HTTP/1.1 404 Not Found");
-            exit;
-        } else {
-            header('Location:' . $longUrl, true, 302);
-            exit;
-        }
+
+        header('Location:' . $longUrl, true, 302);
     }
 }

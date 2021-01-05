@@ -23,7 +23,7 @@
             "EasyShortUrl\\": "src/"
         },
         "files": [
-            "src/functions.php"
+            "src/Helpers/Functions.php"
         ]
     }
 }
