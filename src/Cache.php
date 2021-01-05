@@ -10,6 +10,8 @@ namespace EasyShortUrl;
 
 use EasyShortUrl\Exception\EasyShortUrlException;
 use Predis\Client;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 /**
  * Class Cache
@@ -33,10 +35,10 @@ class Cache
         
         $cacheClient = env('CACHE_CLIENT');
         if ($cacheClient == 'Filesystem') {
-            $client = new \Symfony\Component\Cache\Adapter\FilesystemAdapter(ESU_APP_NAME, env('CACHE_DEFAULT_LIFETIME'));
+            $client = new FilesystemAdapter(ESU_APP_NAME, env('CACHE_DEFAULT_LIFETIME'));
         } elseif ($cacheClient == 'Redis') {
             $redis = new Client(env('REDIS_DSN'));
-            $client = new \Symfony\Component\Cache\Adapter\RedisAdapter($redis, ESU_APP_NAME, env('CACHE_DEFAULT_LIFETIME'));
+            $client = new RedisAdapter($redis, ESU_APP_NAME, env('CACHE_DEFAULT_LIFETIME'));
         } else {
             throw new EasyShortUrlException('Not Supported Cache Client');
         }
