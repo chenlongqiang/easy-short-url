@@ -20,6 +20,5 @@ CREATE TABLE `esu_url` (
   `request_num` int(11) NOT NULL DEFAULT '0' COMMENT '请求次数',
   `ip` varchar(32) NOT NULL DEFAULT '' COMMENT '请求ip',
   `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='长短网址对应表';

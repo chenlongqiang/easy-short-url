@@ -1,14 +1,19 @@
-# easy-short-url 短网址
-- 使用方式: 可在 laravel、yii、thinkphp 等框架 composer 包引入，也可以独立搭建短网址网站
+# easy-short-url 短网址 2.x
+- 使用方式: 可在 Laravel、Yii、ThinkPHP 等框架 Composer 包引入，也可以独立搭建短网址站点
 - 实现原理: id 自增（转自定义62进制）  
-- 存储: mysql
-- 统计: 302 重定向, 数据库 request_num 字段统计（如考虑高并发的查询性能瓶颈，可自己在调用层做 redis or memcache 缓存，统计将失效）  
+- 存储: MySQL
+- 缓存: 默认使用本地文件缓存，可在配置项 CACHE_CLIENT 定制
+- 安全: 转短网址授权请求密钥 access_key，跳转长网址 access_key + access_domain 校验
+
+## 2.x 相比 1.x 新特性
+- 安全跳转，授权请求密钥、跳转。基于安全考虑，跳转长网址域名必须授权才可跳转
+- 缓存策略。默认本地文件缓存，缓存 1 星期，可在配置项 CACHE_CLIENT、CACHE_DEFAULT_LIFETIME 定制
 
 ## 使用步骤
 
 1.获取包
 ```
-composer require chenlongqiang/easy-short-url
+composer require chenlongqiang/easy-short-url 2^
 ```
 
 2.创建数据库
@@ -19,7 +24,7 @@ create database esu character set utf8 collate utf8_general_ci;
 
 3.创建数据表
 ```
-mysql -u username -ppassword esu < esu.sql
+mysql -u username -ppassword esu < doc/2.x_esu.sql
 ```
 
 4.在项目根目录下，创建配置文件 .env
@@ -30,45 +35,48 @@ cp ./vendor/chenlongqiang/easy-short-url/.env_example ./.env
 
 5.vi .env 修改配置项
 ```
-//生成的短网址域名
+# 短网址服务域名
 DOMAIN=http://s.lukachen.com
-//web 页 session 有效时间
-WEB_SESSION_LIFE=600
-//api ACCESS_KEY
-ACCESS_KEY=easy123456|short099876|url123567
 
+# 数据库配置
 DB_HOST=127.0.0.1
 DB_DBNAME=esu
 DB_USERNAME=root
 DB_PASSWORD=root
+DB_PORT=3306
+DB_CHARSET=utf8
 
-TABLE_URL=esu_url
+# Redis 配置
+REDIS_DSN=tcp://127.0.0.1:6379
+
+# 是否开启缓存，可选项 0: 不开启, 1: 开启 (开启缓存，数据表跳转统计将失效)
+CACHE_OPEN=1
+
+# 缓存方式，可选项 Filesystem: 本地文件缓存, Redis: 缓存 (Redis 缓存，依赖 REDIS_DSN 配置)
+CACHE_CLIENT=Filesystem
+
+# 默认缓存时间 604800 秒 (1星期)
+CACHE_DEFAULT_LIFETIME=604800
+
+# web_admin 页 access_key
+WEB_ADMIN_ACCESS_KEY=esu
+```
+
+6.授权请求密钥、跳转域名
+```
+在数据表 esu_access 添加数据即可
 ```
 
 ## 方法列表
 
-0.config
-```
-$dbConfig = [
-    'host' => env('DB_HOST'),
-    'dbname' => env('DB_DBNAME'),
-    'username' => env('DB_USERNAME'),
-    'password' => env('DB_PASSWORD'),
-];
-$options = [
-    'domain' => env('DOMAIN'),
-    'tableUrl' => env('TABLE_URL'),
-];
-```
-
 1.生成短网址 toShort
 ```
-$shortUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toShort('http://lukachen.com/archives/328/');
+$shortUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toShort('http://lukachen.com/archives/328/');
 ```
 
 2.获取原网址 toLong
 ```
-$longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong($code);
+$longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
 ```
 
 完成以上步骤，即可在项目中引入本包，toShort、toLong 完成长短链接转化。  
@@ -84,24 +92,24 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance($dbConfig, $options)->toLong(
 2) 配置 rewrite 重写至 index.php，不清楚的自行 baidu、google 或联系我
 ```
 
-2.web页（.env DOMAIN 改成自己的域名）
+2.web页
 ```
-地址: http://(你的短网址域名)/web_admin
-授权: web页自带 session_key 授权，session_key 有效期在 .env 中配置 WEB_SESSION_LIFE 单位秒
+地址: http://(你的短网址域名 DOMAIN 配置项)/web_admin
+授权: web_admin 页，使用 WEB_ADMIN_ACCESS_KEY 配置项作为 access_key
 ```
 
 3.api
 ```
-地址: http://(你的短网址域名)/api_gen
+地址: http://(你的短网址域名 DOMAIN 配置项)/api_gen
 方法: POST
 参数:
     type: to_short 或 to_long
-    content: url
-    access_key: api 授权 key 在 .env 中新增，多个 ACCESS_KEY 使用 | 分割
+    content: url  
+    access_key: api 授权密钥，可在 esu_access 新增
 ```
 
 ## 作者
 - QQ 365499684 (添加时备注【短网址】)
 - Blog http://lukachen.com
 - 短网址 http://s.lukachen.com/web_admin
-- 觉得对你有所帮助，请点个 star 谢谢 :)
+- 觉得对你有帮助，请送个 star 谢谢 :)
