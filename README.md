@@ -112,8 +112,10 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
     access_key: api 授权密钥，可在 esu_access 新增
 ```
 
-## 作者
-- QQ 365499684 (添加时备注【短网址】)
-- Blog http://lukachen.com
-- 短网址 http://s.lukachen.com/web_admin
-- 觉得对你有帮助，请送个 star 谢谢 :)
+## 联系我
+- My QQ 365499684 (添加时备注【短网址】)
+- My Blog http://lukachen.com
+- 短网址站点: http://s.lukachen.com/web_admin
+- 如有疑问，欢迎 Issues
+- 如有更棒的 Code 建议，欢迎 Pull Requests
+- 对你有帮助，请动动小手，送个 Star Thank You :)
