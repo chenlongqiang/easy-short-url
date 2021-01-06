@@ -37,7 +37,7 @@ class EasyShortUrl
      */
     private function buildShortUrl($code)
     {
-        return env('DOMAIN') . '/' .  $code;
+        return env('ESU_DOMAIN') . '/' .  $code;
     }
 
     /**

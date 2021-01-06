@@ -33,12 +33,12 @@ class Cache
             return self::$client;
         }
         
-        $cacheClient = env('CACHE_CLIENT');
+        $cacheClient = env('ESU_CACHE_CLIENT');
         if ($cacheClient == 'Filesystem') {
-            $client = new FilesystemAdapter(ESU_APP_NAME, env('CACHE_DEFAULT_LIFETIME'));
+            $client = new FilesystemAdapter(ESU_APP_NAME, env('ESU_CACHE_LIFETIME'));
         } elseif ($cacheClient == 'Redis') {
-            $redis = new Client(env('REDIS_DSN'));
-            $client = new RedisAdapter($redis, ESU_APP_NAME, env('CACHE_DEFAULT_LIFETIME'));
+            $redis = new Client(env('ESU_REDIS_DSN'));
+            $client = new RedisAdapter($redis, ESU_APP_NAME, env('ESU_CACHE_LIFETIME'));
         } else {
             throw new EasyShortUrlException('Not Supported Cache Client');
         }

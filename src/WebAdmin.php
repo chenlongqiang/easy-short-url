@@ -335,8 +335,8 @@
         $(tabsbody[tabs.index(this)]).show();
     });
 
-    var url = "<?php echo env('DOMAIN') . '/api_gen';?>";
-    var accessKey = "<?php echo env('WEB_ADMIN_ACCESS_KEY');?>";
+    var url = "<?php echo env('ESU_DOMAIN') . '/api_gen';?>";
+    var accessKey = "<?php echo env('ESU_WEB_ADMIN_ACCESS_KEY');?>";
     $('.send_button').on('click', function(e){
         var type = $(this).data('type');
         var contentClass = '.' + type + '_content';

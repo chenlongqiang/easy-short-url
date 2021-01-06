@@ -2,7 +2,7 @@
 - 使用方式: 可在 Laravel、Yii、ThinkPHP 等框架 Composer 包引入，也可以独立搭建短网址站点
 - 实现原理: id 自增（转自定义62进制）  
 - 存储: MySQL
-- 缓存: 默认使用本地文件缓存，可在配置项 CACHE_CLIENT 定制
+- 缓存: 默认使用本地文件缓存，可在配置项 ESU_CACHE_CLIENT 定制
 - 安全: 转短网址授权请求密钥 access_key，跳转长网址 access_key + access_domain 校验
 
 ## 导航
@@ -11,7 +11,7 @@
 
 ## 2.x 相比 1.x 新特性
 - 安全跳转，授权请求密钥、跳转。基于安全考虑，跳转长网址域名，必须授权才可跳转
-- 缓存策略。默认本地文件缓存，缓存 1 星期，可在配置项 CACHE_CLIENT、CACHE_DEFAULT_LIFETIME 定制
+- 缓存策略。默认本地文件缓存，缓存 1 星期，可在配置项 ESU_CACHE_CLIENT、ESU_CACHE_LIFETIME 定制
 
 ## 使用步骤
 
@@ -40,30 +40,30 @@ cp ./vendor/chenlongqiang/easy-short-url/.env_example ./.env
 5.vi .env 修改配置项
 ```
 # 短网址服务域名
-DOMAIN=http://s.lukachen.com
+ESU_DOMAIN=http://s.lukachen.com
 
 # 数据库配置
-DB_HOST=127.0.0.1
-DB_DBNAME=esu
-DB_USERNAME=root
-DB_PASSWORD=root
-DB_PORT=3306
-DB_CHARSET=utf8
+ESU_DB_HOST=127.0.0.1
+ESU_DB_DBNAME=esu
+ESU_DB_USERNAME=root
+ESU_DB_PASSWORD=root
+ESU_DB_PORT=3306
+ESU_DB_CHARSET=utf8
 
 # Redis 配置
-REDIS_DSN=tcp://127.0.0.1:6379
+ESU_REDIS_DSN=tcp://127.0.0.1:6379
 
 # 是否开启缓存，可选项 0: 不开启, 1: 开启 (开启缓存，数据表跳转统计将失效)
-CACHE_OPEN=1
+ESU_CACHE_OPEN=1
 
-# 缓存方式，可选项 Filesystem: 本地文件缓存, Redis: 缓存 (Redis 缓存，依赖 REDIS_DSN 配置)
-CACHE_CLIENT=Filesystem
+# 缓存方式，可选项 Filesystem: 本地文件缓存, Redis: 缓存 (Redis 缓存，依赖 ESU_REDIS_DSN 配置)
+ESU_CACHE_CLIENT=Filesystem
 
 # 默认缓存时间 604800 秒 (1星期)
-CACHE_DEFAULT_LIFETIME=604800
+ESU_CACHE_LIFETIME=604800
 
 # web_admin 页 access_key
-WEB_ADMIN_ACCESS_KEY=esu
+ESU_WEB_ADMIN_ACCESS_KEY=esu
 ```
 
 6.授权请求密钥、跳转域名
@@ -98,13 +98,13 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
 
 2.web页
 ```
-地址: http://(你的短网址域名 DOMAIN 配置项)/web_admin
-授权: web_admin 页，使用 WEB_ADMIN_ACCESS_KEY 配置项作为 access_key
+地址: http://(你的短网址域名 ESU_DOMAIN 配置项)/web_admin
+授权: web_admin 页，使用 ESU_WEB_ADMIN_ACCESS_KEY 配置项作为 access_key
 ```
 
 3.api
 ```
-地址: http://(你的短网址域名 DOMAIN 配置项)/api_gen
+地址: http://(你的短网址域名 ESU_DOMAIN 配置项)/api_gen
 方法: POST
 参数:
     type: to_short 或 to_long

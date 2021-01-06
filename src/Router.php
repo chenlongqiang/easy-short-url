@@ -77,7 +77,7 @@ class Router
     public function redirectLongUrl()
     {
         try {
-            if (env('CACHE_OPEN') === '1') {
+            if (env('ESU_CACHE_OPEN') === '1') {
                 $cacheKey = Cache::key('mapping_code_and_long_url', ['code' => $this->uri]);
                 $cache = Cache::client();
                 $mapping = $cache->getItem($cacheKey);

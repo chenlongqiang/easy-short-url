@@ -24,9 +24,9 @@ class DB
             return self::$instance;
         } else {
             return self::$instance = Factory::create(
-                "mysql:host=" . env('DB_HOST') . ";dbname=" . env('DB_DBNAME') . ";port=" . env('DB_PORT') . ";charset=" . env('DB_CHARSET'),
-                env('DB_USERNAME'),
-                env('DB_PASSWORD')
+                "mysql:host=" . env('ESU_DB_HOST') . ";dbname=" . env('ESU_DB_DBNAME') . ";port=" . env('ESU_DB_PORT') . ";charset=" . env('ESU_DB_CHARSET'),
+                env('ESU_DB_USERNAME'),
+                env('ESU_DB_PASSWORD')
             );
         }
     }
