@@ -5,8 +5,12 @@
 - 缓存: 默认使用本地文件缓存，可在配置项 CACHE_CLIENT 定制
 - 安全: 转短网址授权请求密钥 access_key，跳转长网址 access_key + access_domain 校验
 
+## 导航
+- [1.x 版本](doc/1.x_README.md)
+- [1.x 升级 2.x 指南](doc/1.x_upgrade_2.x.md)
+
 ## 2.x 相比 1.x 新特性
-- 安全跳转，授权请求密钥、跳转。基于安全考虑，跳转长网址域名必须授权才可跳转
+- 安全跳转，授权请求密钥、跳转。基于安全考虑，跳转长网址域名，必须授权才可跳转
 - 缓存策略。默认本地文件缓存，缓存 1 星期，可在配置项 CACHE_CLIENT、CACHE_DEFAULT_LIFETIME 定制
 
 ## 使用步骤
