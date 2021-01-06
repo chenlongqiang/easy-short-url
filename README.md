@@ -113,8 +113,8 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
 ```
 
 ## 联系我
-- My QQ 365499684 (添加时备注【短网址】)
-- My Blog http://lukachen.com
+- QQ: 365499684 (添加时备注【短网址】)
+- Blog: http://lukachen.com
 - 短网址站点: http://s.lukachen.com/web_admin
 - 如有疑问，欢迎 Issues
 - 如有更棒的 Code 建议，欢迎 Pull Requests
