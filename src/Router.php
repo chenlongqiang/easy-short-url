@@ -96,6 +96,7 @@ class Router
                 $longUrl = (EasyShortUrl::getInstance())->toLong($this->uri);;
             }
     
+            (EasyShortUrl::getInstance())->requestNum($this->uri);;
             header('Location:' . $longUrl, true, 302);
             exit;
         } catch (\Exception $e) {

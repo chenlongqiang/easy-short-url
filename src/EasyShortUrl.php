@@ -88,8 +88,24 @@ class EasyShortUrl
         
         $res = DB::getInstance()->row("SELECT id,long_url,request_num FROM esu_url WHERE code = ?", $code);
         
-        DB::getInstance()->update('esu_url', ['request_num' => $res['request_num'] + 1], ['id' => $res['id']]);
         return $res['long_url'];
+    }
+    
+    /**
+     * 跳转次数递增
+     * redirect num ++
+     * @param $code
+     * @return bool
+     */
+    public function requestNum($code)
+    {
+        $res = DB::getInstance()->row("SELECT id,request_num FROM esu_url WHERE code = ?", $code);
+        if (empty($res)) {
+            return false;
+        }
+        
+        DB::getInstance()->update('esu_url', ['request_num' => $res['request_num'] + 1], ['id' => $res['id']]);
+        return true;
     }
     
     /**
