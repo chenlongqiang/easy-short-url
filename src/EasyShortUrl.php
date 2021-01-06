@@ -52,7 +52,9 @@ class EasyShortUrl
     {
         $this->validateAccess($accessKey, $longUrl);
         
-        $existsCode = DB::getInstance()->single("SELECT code FROM esu_url WHERE long_url_hash = ?", [md5($longUrl)]);
+        $longUrlHash = md5($longUrl . $accessKey);
+        
+        $existsCode = DB::getInstance()->single("SELECT code FROM esu_url WHERE long_url_hash = ?", [$longUrlHash]);
         if ($existsCode !== false) {
             return $this->buildShortUrl($existsCode);
         }
@@ -60,7 +62,7 @@ class EasyShortUrl
         $id = DB::getInstance()->insertReturnId('esu_url', [
             'code' => '',
             'long_url' => $longUrl,
-            'long_url_hash' => md5($longUrl),
+            'long_url_hash' => $longUrlHash,
             'request_num' => 0,
             'ip' => esu_get_ip(),
             'access_key' => $accessKey,
