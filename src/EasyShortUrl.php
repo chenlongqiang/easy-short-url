@@ -8,122 +8,112 @@
 
 namespace EasyShortUrl;
 
-use ParagonIE\EasyDB\Factory;
-use Exception;
+use EasyShortUrl\Exception\EasyShortUrlException;
 
 class EasyShortUrl
 {
-    
-    // !!!一但进行使用,请勿修改该字符串
-    const STR_SHUFFLE_62 = '9uDsa6I2GzjMCRg8PXc4ZHFhtmVniwLWYeKyqO7blpQ5BES3TUdAx0Jrk1fvNo';
-
-    // instance
     private static $instance;
-    // 短网址域名
-    private $sDomain;
-    // 数据库
-    private $db;
-    private $tableUrl = 'esu_url';
     
-    public function __construct($dbConfig, $options)
+    // !!!一但进行使用, 请勿修改该字符串
+    const STR_SHUFFLE_62 = '9uDsa6I2GzjMCRg8PXc4ZHFhtmVniwLWYeKyqO7blpQ5BES3TUdAx0Jrk1fvNo';
+    
+    private function __construct()
     {
-        $this->setOptions($options);
-        $this->setDB($dbConfig);
     }
     
-    public static function getInstance($dbConfig, $options)
+    public static function getInstance()
     {
         if (!empty(self::$instance)) {
             return self::$instance;
         } else {
-            return self::$instance = new self($dbConfig, $options);
+            return self::$instance = new self();
         }
-    }
-
-    public function setDB($dbConfig)
-    {
-        if (!isset($dbConfig['host']) && $dbConfig['host'] === '') {
-            throw new Exception('未传数据库地址$dbConfig["host"]');
-        }
-        if (!isset($dbConfig['dbname']) && $dbConfig['dbname'] === '') {
-            throw new Exception('未传数据库名$dbConfig["dbname"]');
-        }
-        if (!isset($dbConfig['username']) && $dbConfig['username'] === '') {
-            throw new Exception('未传数据库用户名$dbConfig["username"]');
-        }
-        if (!isset($dbConfig['password']) && $dbConfig['password'] === '') {
-            throw new Exception('未传数据库密码$dbConfig["password"]');
-        }
-        $this->db = Factory::create(
-            "mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']};charset=utf8",
-            $dbConfig['username'],
-            $dbConfig['password'] 
-        );
     }
     
-    public function setOptions($options)
-    {
-        if (!isset($options['domain']) && $options['domain'] === '') {
-            throw new Exception('未传短网址域名$options["domain"]');
-        }
-        $this->sDomain = $options['domain'];
-        if (isset($options['tableUrl'])) {
-            $this->tableUrl = $options['tableUrl'];
-        }
-    }
-
+    /**
+     * 构建短网址
+     * @param $code
+     * @return string
+     */
     private function buildShortUrl($code)
     {
-        return $this->sDomain . '/' .  $code;
+        return env('ESU_DOMAIN') . '/' .  $code;
     }
 
     /**
+     * 长网址缩短为短网址
+     * long url to short url
      * @param $longUrl
+     * @param $accessKey
      * @return string
-     * @throws \Exception
-     * @throws \TypeError
-     * 
-     * 逻辑:
-     * 1.判断是否生成过短网址
-     * 2.写入数据库,并获取自增id
-     * 3.将id转为更短的自定义62进制数(目的:使短网址生成更无规律、更短)
-     * 4.数据表更新短网址code字段
-     * 5.返回短网址
+     * @throws EasyShortUrlException
      */
-    public function toShort($longUrl)
+    public function toShort($longUrl, $accessKey)
     {
-        $existsCode = $this->db->single("SELECT code FROM {$this->tableUrl} WHERE long_url_hash = ?", [md5($longUrl)]);
+        $this->validateAccess($accessKey, $longUrl);
+        
+        $longUrlHash = md5($longUrl . $accessKey);
+        
+        $existsCode = DB::getInstance()->single("SELECT code FROM esu_url WHERE long_url_hash = ?", [$longUrlHash]);
         if ($existsCode !== false) {
             return $this->buildShortUrl($existsCode);
         }
 
-        $id = $this->db->insertReturnId($this->tableUrl, [
+        $id = DB::getInstance()->insertReturnId('esu_url', [
             'code' => '',
             'long_url' => $longUrl,
-            'long_url_hash' => md5($longUrl),
-            'ip' => get_ip(),
+            'long_url_hash' => $longUrlHash,
             'request_num' => 0,
+            'ip' => esu_get_ip(),
+            'access_key' => $accessKey,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
         
         $code = $this->base10To62($id);
-        
-        $this->db->update($this->tableUrl, ['code' => $code], ['id' => $id]);
+    
+        DB::getInstance()->update('esu_url', ['code' => $code], ['id' => $id]);
 
         return $this->buildShortUrl($code);
     }
     
+    /**
+     * 短网址还原为长网址
+     * short url restore long url
+     * @param $code
+     * @return bool
+     */
     public function toLong($code)
     {
-        $res = $this->db->row("SELECT id,long_url,request_num FROM {$this->tableUrl} WHERE code = ?", $code);
-        if (empty($res)) {
-            return false;
-        }
-        $this->db->update($this->tableUrl, ['request_num' => $res['request_num'] + 1], ['id' => $res['id']]);
+        $this->validateAccessByCode($code);
+        
+        $res = DB::getInstance()->row("SELECT id,long_url,request_num FROM esu_url WHERE code = ?", $code);
+        
         return $res['long_url'];
     }
     
-    // 10进制数 转 自定义62进制数
+    /**
+     * 跳转次数递增
+     * redirect num ++
+     * @param $code
+     * @return bool
+     */
+    public function requestNum($code)
+    {
+        $res = DB::getInstance()->row("SELECT id,request_num FROM esu_url WHERE code = ?", $code);
+        if (empty($res)) {
+            return false;
+        }
+        
+        DB::getInstance()->update('esu_url', ['request_num' => $res['request_num'] + 1], ['id' => $res['id']]);
+        return true;
+    }
+    
+    /**
+     * 10 进制数转自定义 62 进制数
+     * decimal to custom 62 hex
+     * @param $num
+     * @return string
+     */
     public function base10To62($num)
     {
         $res = '';
@@ -133,5 +123,37 @@ class EasyShortUrl
         }
         return $res;
     }
-
+    
+    /**
+     * 校验授权
+     * validate access
+     * @param $accessKey
+     * @param $longUrl
+     * @throws EasyShortUrlException
+     */
+    private function validateAccess($accessKey, $longUrl)
+    {
+        $parseResult = parse_url($longUrl);
+        if (!isset($parseResult['host']) || empty($parseResult['host'])) {
+            throw new EasyShortUrlException('error long url');
+        }
+        $res = DB::getInstance()->row("SELECT * FROM esu_access WHERE access_key = ? AND access_domain = ?", $accessKey, $parseResult['host']);
+        if (empty($res)) {
+            throw new EasyShortUrlException('not access');
+        }
+    }
+    
+    /**
+     * 校验跳转授权
+     * validate access by code
+     */
+    private function validateAccessByCode($code)
+    {
+        $res = DB::getInstance()->row("SELECT id,long_url,access_key FROM esu_url WHERE code = ?", $code);
+        if (empty($res)) {
+            throw new EasyShortUrlException('not found long url');
+        }
+        
+        $this->validateAccess($res['access_key'], $res['long_url']);
+    }
 }

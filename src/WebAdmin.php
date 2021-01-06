@@ -222,9 +222,9 @@
     .url_input input {
         outline: 0;
         width: 432px;
-        height: 17px;
+        height: 25px;
         font-size: 14px;
-        padding: 4px 5px 0;
+        padding: 4px 4px;
         border: 0
     }
 
@@ -319,7 +319,7 @@
         <div id="t_success_show_wrap"></div>
     </div>
     <div class="footer" style="text-align: center;">
-        web授权有效期至<?php echo date('Y-m-d H:i:s', time() + env('WEB_SESSION_LIFE'));?>,过期后请刷新页面重新授权,再使用相关功能.
+        请管理员在 esu_access 表添加授权后，再使用相关功能
     </div>
 </div>
 <!-- 引入 jquery.js -->
@@ -335,8 +335,8 @@
         $(tabsbody[tabs.index(this)]).show();
     });
 
-    var url = "<?php echo $options['domain'] . '/api_gen';?>";
-    var sessionKey = "<?php echo $sessionKey;?>";
+    var url = "<?php echo env('ESU_DOMAIN') . '/api_gen';?>";
+    var accessKey = "<?php echo env('ESU_WEB_ADMIN_ACCESS_KEY');?>";
     $('.send_button').on('click', function(e){
         var type = $(this).data('type');
         var contentClass = '.' + type + '_content';
@@ -345,7 +345,7 @@
         var params = {
             'type': type,
             'content': encodeURIComponent(content),
-            'session_key': sessionKey
+            'access_key': accessKey,
         };
         $.post(url, params, function(res){
             if (res.code == '0') {
