@@ -286,11 +286,15 @@
             <div class="tab_body">
                 <div class="url_short">
                     <div class="paste_url">
-                        <label for="long_url" class="long_url_tip">请输入长网址:</label>
+                        <label class="long_url_tip">授权码:</label>
                         <div class="url_input">
-                            <input type="text" name="long_url" id="long_url" class="to_short_content"/>
+                            <input type="text" class="to_short_access_key" value="<?php echo env('ESU_WEB_ADMIN_ACCESS_KEY');?>"/>
                         </div>
-                        <label for="long_url">短网址:</label>
+                        <label class="long_url_tip">请输入长网址:</label>
+                        <div class="url_input">
+                            <input type="text" class="to_short_content"/>
+                        </div>
+                        <label>短网址:</label>
                         <div class="url_input">
                             <input type="text" class="to_short_result"/>
                         </div>
@@ -301,11 +305,15 @@
                 </div>
                 <div class="url_revert">
                     <div class="paste_url">
-                        <label for="short_url" class="url_tip">请输入短网址:</label>
+                        <label class="url_tip">授权码:</label>
                         <div class="url_input">
-                            <input type="text" name="short_url" id="short_url" class="to_long_content"/>
+                            <input type="text" class="to_long_access_key" value="<?php echo env('ESU_WEB_ADMIN_ACCESS_KEY');?>"/>
                         </div>
-                        <label for="short_url" class="url_tip">原长网址:</label>
+                        <label class="url_tip">请输入短网址:</label>
+                        <div class="url_input">
+                            <input type="text" class="to_long_content"/>
+                        </div>
+                        <label class="url_tip">原长网址:</label>
                         <div class="url_input">
                             <input type="text" class="to_long_result"/>
                         </div>
@@ -336,16 +344,16 @@
     });
 
     var url = "<?php echo env('ESU_DOMAIN') . '/api_gen';?>";
-    var accessKey = "<?php echo env('ESU_WEB_ADMIN_ACCESS_KEY');?>";
     $('.send_button').on('click', function(e){
         var type = $(this).data('type');
+        var accessKeyClass = '.' + type + '_access_key';
         var contentClass = '.' + type + '_content';
         var resultClass = '.' + type + '_result';
         var content = $(contentClass).val();
         var params = {
             'type': type,
             'content': encodeURIComponent(content),
-            'access_key': accessKey,
+            'access_key': $(accessKeyClass).val(),
         };
         $.post(url, params, function(res){
             if (res.code == '0') {
