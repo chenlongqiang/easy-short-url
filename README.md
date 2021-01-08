@@ -54,7 +54,7 @@ ESU_DB_CHARSET=utf8
 ESU_REDIS_DSN=tcp://127.0.0.1:6379
 
 # 是否开启缓存，可选项 0: 不开启, 1: 开启 (开启缓存，数据表跳转统计将失效)
-ESU_CACHE_OPEN=1
+ESU_CACHE_OPEN=0
 
 # 缓存方式，可选项 Filesystem: 本地文件缓存, Redis: 缓存 (Redis 缓存，依赖 ESU_REDIS_DSN 配置)
 ESU_CACHE_CLIENT=Filesystem
