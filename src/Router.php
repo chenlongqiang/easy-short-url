@@ -95,8 +95,12 @@ class Router
             if (!isset($longUrl) || empty($longUrl)) {
                 $longUrl = (EasyShortUrl::getInstance())->toLong($this->uri);;
             }
+            
+            // 不启用缓存，才做数据统计
+            if (env('ESU_CACHE_OPEN') !== '1') {
+                (EasyShortUrl::getInstance())->requestNum($this->uri);;
+            }
     
-            (EasyShortUrl::getInstance())->requestNum($this->uri);;
             header('Location:' . $longUrl, true, 302);
             exit;
         } catch (\Exception $e) {

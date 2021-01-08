@@ -67,6 +67,7 @@ class EasyShortUrl
             'ip' => esu_get_ip(),
             'access_key' => $accessKey,
             'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
         
         $code = $this->base10To62($id);
@@ -104,7 +105,10 @@ class EasyShortUrl
             return false;
         }
         
-        DB::getInstance()->update('esu_url', ['request_num' => $res['request_num'] + 1], ['id' => $res['id']]);
+        DB::getInstance()->update('esu_url', [
+            'request_num' => $res['request_num'] + 1,
+            'updated_at' => date('Y-m-d H:i:s')
+        ], ['id' => $res['id']]);
         return true;
     }
     
