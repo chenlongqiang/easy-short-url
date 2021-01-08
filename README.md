@@ -83,7 +83,7 @@ $shortUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toShort('http://lukachen.
 $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
 ```
 
-完成以上步骤，即可在项目中引入本包，toShort、toLong 完成长短链接转化。  
+完成以上步骤，即可在项目中引入本包，toShort、toLong 完成长短链接转化
 如果不需要配置独立的转链网站，后面就不用看了 :)  
 
 ## 需要搭建转链网站
@@ -112,9 +112,21 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
     access_key: api 授权密钥，可在 esu_access 新增
 ```
 
+## http://s.lukachen.com/web_admin 授权码申请
+由于跳转任意域名，可能造成法律风险，2.x 起提供授权使用  
+需使用我搭建的短网址服务，请发邮件 365499684@qq.com 申请。跳转域名合理，我将会邮件回复授权码，并添加合法跳转域名
+
+### 申请模版
+```
+因 xxx 业务需要，申请短网址服务，要跳转的目标域名为 
+lukachen.com
+google.com
+baidu.com
+```
+
 ## 联系我
 - QQ: 365499684 (添加时备注【短网址】)
-- Blog: http://lukachen.com
+- Blog: http://lukachen.com/projects
 - 短网址站点: http://s.lukachen.com/web_admin
 - 如有疑问，欢迎 Issues
 - 如有更棒的 Code 建议，欢迎 Pull Requests
