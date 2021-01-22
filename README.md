@@ -3,7 +3,7 @@
 - 实现原理: id 自增（转自定义62进制）  
 - 存储: MySQL
 - 缓存: 默认使用本地文件缓存，可在配置项 ESU_CACHE_CLIENT 定制
-- 安全: 转短网址授权请求密钥 access_key，跳转长网址 access_key + access_domain 校验
+- 安全: 转短网址、跳转长网址授权
 
 ## 导航
 - [1.x 版本](doc/1.x_README.md)

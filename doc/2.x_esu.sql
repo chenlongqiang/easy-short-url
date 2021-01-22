@@ -17,7 +17,9 @@ CREATE TABLE `esu_url`  (
   `long_url_hash` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '长网址做hash后的值',
   `request_num` int(11) NOT NULL DEFAULT 0 COMMENT '请求次数',
   `ip` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '请求ip',
+  `access_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '密钥',
   `created_at` datetime(0) NOT NULL COMMENT '创建时间',
+  `updated_at` datetime(0) NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '长短网址对应表' ROW_FORMAT = Dynamic;
 
