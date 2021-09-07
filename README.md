@@ -17,7 +17,7 @@
 
 1.获取包
 ```
-composer require chenlongqiang/easy-short-url 2^
+composer require chenlongqiang/easy-short-url "^2"
 ```
 
 2.创建数据库
