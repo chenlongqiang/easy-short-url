@@ -111,6 +111,8 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
     content: url  
     access_key: api 授权密钥，可在 esu_access 新增
 ```
+  
+转链网站搭建完成 :)  
 
 ## http://s.lukachen.com/web_admin 授权码申请
 由于跳转任意域名，可能造成法律风险，2.x 起提供授权使用  
