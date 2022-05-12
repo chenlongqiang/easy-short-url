@@ -114,16 +114,21 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
   
 转链网站搭建完成 :)  
 
-## http://s.lukachen.com/web_admin 授权码申请
+## 我的短网址服务，体验地址
+http://s.lukachen.com/web_admin  
+
+- 默认授权码 esu，已添加 lukachen.com 域名为合法跳转域，可用该跳转域名体验
+- 如，长网址为：http://lukachen.com/friends 可缩短网址为 http://s.lukachen.com/LS
+
+### 我的短网址，提供授权使用
 需使用我搭建的短网址服务，请发邮件 365499684@qq.com 申请。跳转域名合理，我将会邮件回复授权码，并添加合法跳转域名  
 特别说明：
 - `我的短网址服务 s.lukachen.com` 不对微信业务开放，因为微信分享非常容易封禁域名，影响到大家使用
 - 使用本库自建服务，`自己决定跳转域名范围和使用场景`，键盘侠请自己睁大眼睛看清楚，懒得争论
 
-
-### 申请模版
+### 我的短网址，申请模版
 ```
-因 xxx 业务需要，申请短网址服务，要跳转的目标域名为 
+因 xxx 业务需要，申请短网址服务，跳转目标域名为 
 lukachen.com
 google.com
 baidu.com
