@@ -2,7 +2,7 @@
 - 使用方式: 可在 Laravel、Yii、ThinkPHP 等框架 Composer 包引入，也可以独立搭建短网址站点
 - 实现原理: id 自增（转自定义62进制）  
 - 存储: MySQL
-- 缓存: 默认使用本地文件缓存，可在配置项 ESU_CACHE_CLIENT 定制
+- 缓存: 可在配置项 ESU_CACHE_OPEN、ESU_CACHE_CLIENT、ESU_CACHE_LIFETIME 定制
 - 安全: 转短网址、跳转长网址授权
 
 ## 导航
@@ -10,11 +10,10 @@
 - [1.x 升级 2.x 指南](doc/1.x_upgrade_2.x.md)
 
 ## 2.x 相比 1.x 新特性
-- 安全跳转，授权请求密钥、跳转。基于安全考虑，跳转长网址域名，必须授权才可跳转
-- 缓存策略。默认本地文件缓存，缓存 1 星期，可在配置项 ESU_CACHE_CLIENT、ESU_CACHE_LIFETIME 定制
+- 安全跳转，授权请求密钥、跳转域。基于安全考虑，跳转长网址域名，必须授权才可跳转
+- 缓存策略，可配置。可在配置项 ESU_CACHE_OPEN、ESU_CACHE_CLIENT、ESU_CACHE_LIFETIME 定制
 
 ## 使用步骤
-
 1.获取包
 ```
 composer require chenlongqiang/easy-short-url "^2"
@@ -72,7 +71,6 @@ ESU_WEB_ADMIN_ACCESS_KEY=esu
 ```
 
 ## 方法列表
-
 1.生成短网址 toShort
 ```
 $shortUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toShort('http://lukachen.com/archives/328/');
@@ -87,7 +85,6 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
 如果不需要配置独立的转链网站，后面就不用看了 :)  
 
 ## 需要搭建转链网站
-
 需搭建类似 http://s.lukachen.com/web_admin 这样的网站，继续以下步骤（本项目已经提供前端页面，做好域名和服务器配置即可）  
 
 1.服务器配置
@@ -118,7 +115,7 @@ $longUrl = \EasyShortUrl\EasyShortUrl::getInstance()->toLong($code);
 http://s.lukachen.com/web_admin  
 
 - 默认授权码 esu，已添加 lukachen.com 域名为合法跳转域，可用该跳转域名体验
-- 如，长网址为：http://lukachen.com/friends 可缩短网址为 http://s.lukachen.com/LS
+- 如长网址为：http://lukachen.com/friends 可缩短网址为 http://s.lukachen.com/LS
 
 ### 我的短网址，提供授权使用
 需使用我搭建的短网址服务，请发邮件 365499684@qq.com 申请。跳转域名合理，我将会邮件回复授权码，并添加合法跳转域名  
