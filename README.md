@@ -132,9 +132,9 @@ baidu.com
 ```
 
 ## 联系我
-- QQ: 365499684 (添加时备注【短网址】)
+- QQ: 365499684 (添加时请备注【短网址】)
 - Blog: http://lukachen.com/projects
-- 短网址站点: http://s.lukachen.com/web_admin
-- 如有疑问，欢迎 Issues
-- 如有更棒的 Code 建议，欢迎 Pull Requests
-- 对你有帮助，请动动小手，送个 Star Thank You :)
+- 短网址 Demo 站点: http://s.lukachen.com/web_admin
+- 有疑问，欢迎 Issues
+- 有更棒的 Code 建议，欢迎 Pull Requests
+- 对你有帮助，请动动小手 Star Thank You :)
